@@ -4,9 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Container } from './components/Container/Container';
 import Spinner from './components/Spinner/Spinner';
 import { Header } from './components/Header/Header';
-// import { HomePage } from './views/HomePage/HomePage';
-// import { MoviesPage } from './views/MoviesPage/MoviesPage';
-// import { MovieDetailsPage } from './views/MovieDetailsPage/MovieDetailsPage';
 
 const HomePage = lazy(() =>
   import(

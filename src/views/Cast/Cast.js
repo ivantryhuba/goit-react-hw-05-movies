@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { filmsAPI } from '../../services/filmsAPI';
 import { ActorCard } from '../../components/ActorCard/ActorCard';
 
-export const Cast = ({
-  movieId,
-  // actors
-}) => {
+export default function Cast({ movieId }) {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
@@ -24,8 +21,8 @@ export const Cast = ({
       ))}
     </ul>
   );
-};
+}
 
 Cast.propTypes = {
-  movieId: PropTypes.number.isRequired,
+  movieId: PropTypes.string.isRequired,
 };

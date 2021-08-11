@@ -1,21 +1,51 @@
-import React, { useState, useEffect, lazy } from 'react';
-import { Route, NavLink, useParams, useRouteMatch } from 'react-router-dom';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import {
+  Route,
+  NavLink,
+  useParams,
+  useRouteMatch,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import { filmsAPI } from '../../services/filmsAPI';
+import Button from '@material-ui/core/Button';
+import { HiChevronDoubleLeft } from 'react-icons/hi';
 
-import { Cast } from '../Cast/Cast';
-import { Reviews } from '../Reviews/Reviews';
+import Spinner from '../../components/Spinner/Spinner';
+
+const Cast = lazy(() =>
+  import('../Cast/Cast.js' /* webpackChunkName: "cast" */),
+);
+const Reviews = lazy(() =>
+  import('../Reviews/Reviews.js' /* webpackChunkName: "reviews" */),
+);
 
 export default function MovieDetailsPage() {
   const { url, path } = useRouteMatch();
   const { movieId } = useParams();
   const [film, setFilm] = useState(null);
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     filmsAPI.getFilmInfo(movieId).then(setFilm);
   }, [movieId]);
 
+  const onGoBack = () => history.push(location?.state?.from ?? '/');
+
   return (
     <>
+      <Button
+        type="button"
+        variant="contained"
+        size="large"
+        color="primary"
+        // className={styles.Button}
+        onClick={onGoBack}
+      >
+        <HiChevronDoubleLeft /> GO Back
+      </Button>
+
       {film && (
         <>
           <div>
@@ -56,13 +86,15 @@ export default function MovieDetailsPage() {
             </ul>
           </div>
 
-          <Route path={`${path}/cast`}>
-            <Cast movieId={movieId} />
-          </Route>
+          <Suspense fallback={<Spinner />}>
+            <Route path={`${path}/cast`}>
+              <Cast movieId={movieId} />
+            </Route>
 
-          <Route path={`${path}/reviews`}>
-            <Reviews movieId={movieId} />
-          </Route>
+            <Route path={`${path}/reviews`}>
+              <Reviews movieId={movieId} />
+            </Route>
+          </Suspense>
         </>
       )}
     </>
