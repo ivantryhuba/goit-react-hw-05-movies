@@ -1,14 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { NavLink } from 'react-router-dom';
+import styles from './FilmList.module.css';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const FilmList = ({ films }) => {
+  const location = useLocation();
   return (
-    <ul>
+    <ul className={styles.filmList}>
       {films.map(({ id, title, name }) => (
-        <li key={id}>
-          <NavLink to={`/movies/${id}`}>{title ? title : name}</NavLink>
+        <li className={styles.filmItem} key={id}>
+          <NavLink
+            to={{
+              pathname: `/movies/${id}`,
+              state: { from: location, label: 'Back to the list' },
+            }}
+            className={styles.link}
+          >
+            {title ? title : name}
+          </NavLink>
         </li>
       ))}
     </ul>

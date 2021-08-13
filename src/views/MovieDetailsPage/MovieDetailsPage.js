@@ -8,10 +8,10 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { filmsAPI } from '../../services/filmsAPI';
-import Button from '@material-ui/core/Button';
 import { HiChevronDoubleLeft } from 'react-icons/hi';
 
 import Spinner from '../../components/Spinner/Spinner';
+import styles from './MovieDetails.module.css';
 
 const Cast = lazy(() =>
   import('../Cast/Cast.js' /* webpackChunkName: "cast" */),
@@ -21,11 +21,11 @@ const Reviews = lazy(() =>
 );
 
 export default function MovieDetailsPage() {
+  const history = useHistory();
+  const location = useLocation();
   const { url, path } = useRouteMatch();
   const { movieId } = useParams();
   const [film, setFilm] = useState(null);
-  const history = useHistory();
-  const location = useLocation();
 
   useEffect(() => {
     filmsAPI.getFilmInfo(movieId).then(setFilm);
@@ -35,51 +35,58 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <Button
-        type="button"
-        variant="contained"
-        size="large"
-        color="primary"
-        // className={styles.Button}
-        onClick={onGoBack}
-      >
+      <button type="button" className={styles.onGoBackBtn} onClick={onGoBack}>
         <HiChevronDoubleLeft /> GO Back
-      </Button>
+      </button>
 
       {film && (
         <>
-          <div>
-            <div>
+          <div className={styles.mainInfo}>
+            <div className={styles.imgContainer}>
               <img
                 src={`https://image.tmdb.org/t/p/w300${film.poster_path}`}
                 alt={film.original_title}
               />
             </div>
 
-            <div>
-              <h1>{film.original_title}</h1>
-              <p>User Score: {film.vote_average * 10}%</p>
+            <div className={styles.descriptionContainer}>
+              <h1 className={styles.filmTitle}>{film.original_title}</h1>
+              <p className={styles.userScore}>
+                User Score: {film.vote_average * 10}%
+              </p>
 
-              <h2>Overview</h2>
-              <p>{film.overview}</p>
+              <h2 className={styles.overviewTitle}>Overview</h2>
+              <p className={styles.overview}>{film.overview}</p>
 
-              <h3>Genres</h3>
-              <ul>
+              <h3 className={styles.genresTitle}>Genres</h3>
+              <ul className={styles.genresList}>
                 {film.genres.map(genre => (
-                  <li key={genre.id}>{genre.name}</li>
+                  <li className={styles.genreItem} key={genre.id}>
+                    {genre.name}
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
 
           <div>
-            <p>Additional information</p>
-            <ul>
-              <li>
-                <NavLink to={`${url}/cast`}>Cast</NavLink>
+            <h3 className={styles.additionalTitle}>Additional information</h3>
+            <ul className={styles.additionalList}>
+              <li className={styles.additionalItem}>
+                <NavLink
+                  className={styles.link}
+                  activeClassName={styles.activeLink}
+                  to={`${url}/cast`}
+                >
+                  Cast
+                </NavLink>
               </li>
-              <li>
-                <NavLink exact to={`${url}/reviews`}>
+              <li className={styles.additionalItem}>
+                <NavLink
+                  className={styles.link}
+                  activeClassName={styles.activeLink}
+                  to={`${url}/reviews`}
+                >
                   Reviews
                 </NavLink>
               </li>

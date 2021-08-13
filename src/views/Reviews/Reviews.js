@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { filmsAPI } from '../../services/filmsAPI';
 import { ReviewCard } from '../../components/ReviewCard/ReviewCard';
 
+import styles from './Reviews.module.css';
+
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
 
@@ -11,7 +13,11 @@ export default function Reviews({ movieId }) {
   }, [movieId]);
 
   if (reviews.length === 0) {
-    return <p>We don't have any reviews for this movie.</p>;
+    return (
+      <p className={styles.message}>
+        We don't have any reviews for this movie.
+      </p>
+    );
   }
 
   if (reviews.length > 0) {

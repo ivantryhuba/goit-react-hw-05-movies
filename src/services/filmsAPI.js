@@ -4,7 +4,7 @@ const API_KEY = '626ccbfdbfd9a7705108c6f818900b82';
 
 const getPopularFilms = () => {
   return axios
-    .get(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`)
+    .get(`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`)
     .then(res => res.data.results);
 };
 

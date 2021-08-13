@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './ReviewCard.module.css';
 
 export const ReviewCard = ({ author, content }) => {
   return (
-    <li>
-      <h3>Author: {author}</h3>
-      <p>{content}</p>
+    <li className={styles.reviewCard}>
+      <h3 className={styles.author}>Author: {author}</h3>
+      <p className={styles.content}>{content}</p>
     </li>
   );
 };
