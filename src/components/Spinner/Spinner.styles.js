@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const SpinnerStyled = styled.div`
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0px auto;
+  width: 100px;
+  height: 100px;
 `;
